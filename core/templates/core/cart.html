@@ -1,47 +1,45 @@
 {% extends "base.html" %}
-
-{% block title %}Shopping Cart | Fresh Juice Store{% endblock %}
-
+{% block title %}Your Cart | Fresh Press{% endblock %}
 {% block content %}
-<h1>Your Shopping Cart</h1>
-
+<section class="page-heading compact-heading">
+    <span class="eyebrow">YOUR GOOD STUFF</span><h1>Your <span>cart.</span></h1>
+    <p>One step closer to a brighter day.</p>
+</section>
 {% if items %}
-    {% for item in items %}
-        <section>
-            <h2>{{ item.product.name }}</h2>
-            <p>Unit price: {{ item.product.price }}</p>
-            <p>Subtotal: {{ item.subtotal }}</p>
-
-            <form method="post"
-                  action="{% url 'cart_update' item.product.pk %}">
-                {% csrf_token %}
-                <label for="quantity-{{ item.product.pk }}">Quantity</label>
-                <input
-                    id="quantity-{{ item.product.pk }}"
-                    type="number"
-                    name="quantity"
-                    min="0"
-                    max="100"
-                    value="{{ item.quantity }}"
-                    required
-                >
-                <button type="submit">Update</button>
-            </form>
-
-            <form method="post"
-                  action="{% url 'cart_remove' item.product.pk %}">
-                {% csrf_token %}
-                <button type="submit">Remove</button>
-            </form>
-        </section>
-    {% endfor %}
-
-    <h2>Total: {{ total }}</h2>
-
-    <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+<div class="cart-layout">
+    <section class="cart-items" aria-label="Cart items">
+        {% for item in items %}
+        <article class="cart-item">
+            <div class="cart-item-art" aria-hidden="true">{% cycle '🍊' '🍓' '🥭' '🥝' '🍍' %}</div>
+            <div class="cart-item-main">
+                <h2>{{ item.product.name }}</h2>
+                <p>Rs. {{ item.product.price|floatformat:2 }} <span>per drink</span></p>
+                <form method="post" action="{% url 'cart_update' item.product.pk %}" class="cart-update-form">
+                    {% csrf_token %}
+                    <label for="quantity-{{ item.product.pk }}">Qty</label>
+                    <input id="quantity-{{ item.product.pk }}" type="number" name="quantity" min="0" max="100" value="{{ item.quantity }}" required inputmode="numeric">
+                    <button class="button button-quiet button-small" type="submit">Update</button>
+                    <span class="form-hint">Set quantity to 0 to remove</span>
+                </form>
+                <form method="post" action="{% url 'cart_remove' item.product.pk %}" class="remove-form">
+                    {% csrf_token %}<button type="submit" class="text-button">Remove item</button>
+                </form>
+            </div>
+            <div class="cart-item-subtotal"><span>Subtotal</span><strong>Rs. {{ item.subtotal|floatformat:2 }}</strong></div>
+        </article>
+        {% endfor %}
+        <a class="text-link continue-link" href="{% url 'product_list' %}">← Continue shopping</a>
+    </section>
+    <aside class="order-summary">
+        <span class="eyebrow">THE IMPORTANT BITS</span><h2>Order summary</h2>
+        <div class="summary-line"><span>Items</span><span>{{ items|length }}</span></div>
+        <div class="summary-line summary-total"><span>Total</span><strong>Rs. {{ total|floatformat:2 }}</strong></div>
+        <p class="summary-note">Your total is calculated using current product prices.</p>
+        <a class="button button-large button-full" href="{% url 'checkout' %}">Continue to checkout <span aria-hidden="true">→</span></a>
+        <div class="secure-note"><span aria-hidden="true">♡</span> Simple, secure checkout</div>
+    </aside>
+</div>
 {% else %}
-    <p>Your cart is empty.</p>
+<div class="empty-state cart-empty"><span class="empty-emoji" aria-hidden="true">🛒</span><h2>Your cart is taking a breather.</h2><p>Find something fresh and add it to your day.</p><a class="button" href="{% url 'product_list' %}">Explore the menu</a></div>
 {% endif %}
-
-<a href="{% url 'product_list' %}">Continue shopping</a>
 {% endblock %}

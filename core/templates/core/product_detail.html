@@ -1,28 +1,31 @@
 {% extends "base.html" %}
-
-{% block title %}{{ product.name }} | Fresh Juice Store{% endblock %}
-
+{% block title %}{{ product.name }} | Fresh Press{% endblock %}
 {% block content %}
-<h1>{{ product.name }}</h1>
-
-<p>{{ product.description|default:"Fresh and delicious." }}</p>
-<p>Price: {{ product.price }}</p>
-<p>In stock: {{ product.stock }}</p>
-
-<form method="post" action="{% url 'cart_add' product.pk %}">
-    {% csrf_token %}
-    <label for="quantity">Quantity:</label>
-    <input
-        id="quantity"
-        type="number"
-        name="quantity"
-        min="1"
-        max="100"
-        value="1"
-        required
-    >
-    <button type="submit">Add to Cart</button>
-</form>
-
-<p><a href="{% url 'product_list' %}">Back to products</a></p>
+<div class="breadcrumb"><a href="{% url 'home' %}">Home</a><span> / </span><a href="{% url 'product_list' %}">Shop</a><span> / </span><span>{{ product.name }}</span></div>
+<section class="detail-layout">
+    <div class="detail-art">
+        <span class="detail-sparkle sparkle-a">✳</span><span class="detail-sparkle sparkle-b">✦</span>
+        <div class="detail-fruit" aria-hidden="true">🍹</div>
+        <span class="detail-art-caption">A FRESH PRESS FAVOURITE</span>
+    </div>
+    <div class="detail-copy">
+        <span class="eyebrow"><span class="status-dot"></span> FRESH PICK</span>
+        <h1>{{ product.name }}</h1>
+        <p class="detail-description">{{ product.description|default:"A fresh, feel-good sip made to brighten your day." }}</p>
+        <div class="detail-price">Rs. {{ product.price|floatformat:2 }}</div>
+        <div class="detail-stock"><span class="status-dot"></span> {{ product.stock }} available</div>
+        <div class="detail-rule"></div>
+        <form method="post" action="{% url 'cart_add' product.pk %}" class="add-cart-form">
+            {% csrf_token %}
+            <label for="quantity">Choose your quantity</label>
+            <div class="quantity-and-button">
+                <input id="quantity" type="number" name="quantity" min="1" max="100" value="1" required inputmode="numeric" aria-describedby="quantity-help">
+                <button class="button button-large" type="submit">Add to cart <span aria-hidden="true">↗</span></button>
+            </div>
+            <small id="quantity-help" class="form-hint">Quantity is checked against available stock at checkout.</small>
+        </form>
+        <div class="detail-perks"><span>✳ Carefully picked</span><span>♡ Made for your day</span></div>
+        <a class="text-link back-link" href="{% url 'product_list' %}">← Back to all drinks</a>
+    </div>
+</section>
 {% endblock %}

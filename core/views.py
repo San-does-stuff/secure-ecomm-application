@@ -19,6 +19,7 @@ from django.db import transaction
 from django.views.decorators.http import require_http_methods
 from .models import Product, Order, OrderItem
 
+
 def home(request):
     return render(request, "core/home.html")
 
@@ -294,3 +295,30 @@ def checkout(request):
     request.session["cart"] = {}
     messages.success(request, f"Order #{order.pk} placed successfully.")
     return redirect("home")
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(
+        customer=request.user
+    ).prefetch_related("items__product")
+
+    return render(
+        request,
+        "core/order_history.html",
+        {"orders": orders},
+    )
+
+
+@login_required
+def order_detail(request, pk):
+    order = get_object_or_404(
+        Order.objects.prefetch_related("items__product"),
+        pk=pk,
+        customer=request.user,
+    )
+
+    return render(
+        request,
+        "core/order_detail.html",
+        {"order": order},
+    )

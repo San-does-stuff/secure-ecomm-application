@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}My Orders | Fresh Press{% endblock %}
+{% block content %}
+<section class="page-heading compact-heading"><span class="eyebrow">YOUR FRESH PRESS STORY</span><h1>Order <span>history.</span></h1><p>All your good sips, in one place.</p></section>
+{% if orders %}
+<div class="orders-list">
+    {% for order in orders %}
+    <article class="order-card">
+        <div class="order-card-icon" aria-hidden="true">✳</div>
+        <div class="order-card-main"><span class="order-number">ORDER #{{ order.pk }}</span><h2>Fresh Press order</h2><p>Placed {{ order.created_at|date:"M j, Y · P" }}</p></div>
+        <div class="order-card-status"><span class="status-pill status-{{ order.status }}">{{ order.get_status_display }}</span><a class="text-link" href="{% url 'order_detail' order.pk %}">View details ↗</a></div>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><span class="empty-emoji" aria-hidden="true">🧾</span><h2>Your story starts with a sip.</h2><p>You haven't placed an order yet. Your first favourite is out there.</p><a class="button" href="{% url 'product_list' %}">Find your favourite</a></div>
+{% endif %}
+{% endblock %}

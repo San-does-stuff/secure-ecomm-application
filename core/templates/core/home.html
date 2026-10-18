@@ -1,8 +1,66 @@
 {% extends "base.html" %}
-
-{% block title %}Home | Fresh Juice Store{% endblock %}
-
+{% block title %}Fresh Press | Juice & Smoothies{% endblock %}
 {% block content %}
-    <h1>Welcome to Fresh Juice Store</h1>
-    <p>Fresh juices and smoothies, made simple.</p>
+<section class="hero">
+    <div class="hero-copy">
+        <span class="eyebrow"><span class="eyebrow-dot"></span> YOUR DAILY DOSE OF GOOD</span>
+        <h1>A little more<br><span>fresh in your day.</span></h1>
+        <p class="hero-description">Bright, feel-good juices and creamy smoothies for wherever the day takes you. Find your new favourite sip.</p>
+        <div class="hero-actions">
+            <a class="button button-large" href="{% url 'product_list' %}">Explore the menu <span aria-hidden="true">↗</span></a>
+            <span class="hero-note"><span aria-hidden="true">✦</span> Simple ingredients, happy sips</span>
+        </div>
+        <div class="hero-stats">
+            <div><strong>100%</strong><span>good vibes</span></div>
+            <div class="stat-divider"></div>
+            <div><strong>Fresh</strong><span>every day</span></div>
+            <div class="stat-divider"></div>
+            <div><strong>Your way</strong><span>your flavour</span></div>
+        </div>
+    </div>
+    <div class="hero-art" aria-label="Illustration of colourful fresh fruit">
+        <div class="art-sun"></div>
+        <div class="fruit fruit-orange" aria-hidden="true">🍊</div>
+        <div class="fruit fruit-strawberry" aria-hidden="true">🍓</div>
+        <div class="fruit fruit-avocado" aria-hidden="true">🥑</div>
+        <div class="fruit fruit-pineapple" aria-hidden="true">🍍</div>
+        <div class="drink-cup">
+            <div class="cup-lid"></div>
+            <div class="cup-straw"></div>
+            <div class="cup-liquid"></div>
+            <div class="cup-label"><span>fresh</span><b>press</b><small>GOOD STUFF INSIDE</small></div>
+        </div>
+        <div class="art-caption"><span>✳</span> Sip into something good</div>
+    </div>
+</section>
+
+<section class="intro-strip">
+    <span class="strip-icon" aria-hidden="true">✳</span>
+    <p>Not just a drink. <strong>A fresh start in a cup.</strong></p>
+    <a href="{% url 'product_list' %}">Find your flavour <span aria-hidden="true">→</span></a>
+</section>
+
+<section class="category-section">
+    <div class="section-heading">
+        <div><span class="eyebrow">A MENU WITH MOOD</span><h2>What are you <span>feeling?</span></h2></div>
+        <a class="text-link" href="{% url 'product_list' %}">Shop all drinks <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="category-grid">
+        <a class="category-card category-citrus" href="{% url 'product_list' %}">
+            <span class="category-emoji" aria-hidden="true">🍊</span><span class="category-kicker">BRIGHT & ZESTY</span><h3>Juice things up</h3><span class="category-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="category-card category-berry" href="{% url 'product_list' %}">
+            <span class="category-emoji" aria-hidden="true">🍓</span><span class="category-kicker">SMOOTH & HAPPY</span><h3>Blend your bliss</h3><span class="category-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="category-card category-green" href="{% url 'product_list' %}">
+            <span class="category-emoji" aria-hidden="true">🥝</span><span class="category-kicker">GREEN & GLOWING</span><h3>Go green today</h3><span class="category-arrow" aria-hidden="true">↗</span>
+        </a>
+    </div>
+</section>
+
+<section class="bottom-cta">
+    <div><span class="eyebrow">YOUR NEXT FAVOURITE IS WAITING</span><h2>Good things are<br><span>blending.</span></h2></div>
+    <a class="button button-light button-large" href="{% url 'product_list' %}">Browse the menu <span aria-hidden="true">↗</span></a>
+    <span class="cta-fruit" aria-hidden="true">🍋</span>
+</section>
 {% endblock %}

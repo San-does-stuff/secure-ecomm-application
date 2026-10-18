@@ -1,23 +1,38 @@
-
 {% extends "base.html" %}
-
-{% block title %}Products | Fresh Juice Store{% endblock %}
-
+{% block title %}Shop the Menu | Fresh Press{% endblock %}
 {% block content %}
-<h1>Our Juices and Smoothies</h1>
+<section class="page-heading">
+    <span class="eyebrow">FRESHLY PICKED FOR YOU</span>
+    <h1>The good <span>stuff.</span></h1>
+    <p>Find your next favourite in our lineup of fresh juices and feel-good smoothies.</p>
+</section>
 
-{% for product in products %}
-    <article>
-        <h2>
-            <a href="{% url 'product_detail' product.pk %}">
-                {{ product.name }}
+<div class="catalog-toolbar">
+    <span class="results-label">{{ products|length }} delicious option{{ products|length|pluralize }}</span>
+    <span class="availability-note"><span class="status-dot"></span> Showing in-stock favourites</span>
+</div>
+
+<div class="product-grid">
+    {% for product in products %}
+        <article class="product-card">
+            <a class="product-art product-art-{{ forloop.counter0|divisibleby:4 }}" href="{% url 'product_detail' product.pk %}" aria-label="View {{ product.name }}">
+                <span class="product-orbit orbit-one"></span><span class="product-orbit orbit-two"></span>
+                <span class="product-emoji" aria-hidden="true">{% cycle '🍊' '🍓' '🥭' '🥝' '🍍' '🫐' %}</span>
+                <span class="product-badge">FRESH PICK</span>
             </a>
-        </h2>
-        <p>{{ product.description|default:"Fresh and delicious." }}</p>
-        <p>Price: {{ product.price }}</p>
-        <a href="{% url 'product_detail' product.pk %}">View details</a>
-    </article>
-{% empty %}
-    <p>No products are currently available.</p>
-{% endfor %}
+            <div class="product-card-body">
+                <div class="product-card-title"><h2><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h2><span class="product-price">Rs. {{ product.price|floatformat:2 }}</span></div>
+                <p>{{ product.description|default:"A fresh, feel-good sip made to brighten your day."|truncatewords:18 }}</p>
+                <div class="product-card-bottom"><span class="stock-label"><span class="status-dot"></span> In stock</span><a class="round-arrow" href="{% url 'product_detail' product.pk %}" aria-label="View {{ product.name }}">↗</a></div>
+            </div>
+        </article>
+    {% empty %}
+        <div class="empty-state">
+            <span class="empty-emoji" aria-hidden="true">🍹</span>
+            <h2>A little quiet in the fridge.</h2>
+            <p>There aren't any available drinks right now. Check back soon.</p>
+            <a class="button" href="{% url 'home' %}">Back home</a>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

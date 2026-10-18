@@ -1,12 +1,18 @@
-
 {% extends "base.html" %}
-{% block title %}Register | Fresh Juice Store{% endblock %}
+{% block title %}Join Fresh Press | Fresh Press{% endblock %}
 {% block content %}
-<h1>Create an account</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-<p>Already registered? <a href="{% url 'login' %}">Log in</a></p>
+<section class="auth-layout">
+    <div class="auth-art auth-art-green"><span class="eyebrow">A FRESH START</span><h2>Make room for more feel-good moments.</h2><div class="auth-fruit" aria-hidden="true">🥑</div><span class="auth-art-note">Your flavour. Your little ritual.</span></div>
+    <div class="auth-panel"><span class="eyebrow">COME ON IN</span><h1>Join the <span>goodness.</span></h1><p class="auth-intro">Create an account to keep your orders and favourites together.</p>
+        <form method="post" class="styled-form">
+            {% csrf_token %}
+            {% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}
+            {% for field in form %}
+                <div class="form-field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<div class="field-help">{{ field.help_text|safe }}</div>{% endif %}{% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}</div>
+            {% endfor %}
+            <button class="button button-large button-full" type="submit">Create my account <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="auth-switch">Already part of the bunch? <a href="{% url 'login' %}">Log in</a></p>
+    </div>
+</section>
 {% endblock %}
