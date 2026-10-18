@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Cart | Fresh Juice Store{% endblock %}
+
+{% block content %}
+<h1>Your Shopping Cart</h1>
+
+{% if items %}
+    {% for item in items %}
+        <section>
+            <h2>{{ item.product.name }}</h2>
+            <p>Unit price: {{ item.product.price }}</p>
+            <p>Subtotal: {{ item.subtotal }}</p>
+
+            <form method="post"
+                  action="{% url 'cart_update' item.product.pk %}">
+                {% csrf_token %}
+                <label for="quantity-{{ item.product.pk }}">Quantity</label>
+                <input
+                    id="quantity-{{ item.product.pk }}"
+                    type="number"
+                    name="quantity"
+                    min="0"
+                    max="100"
+                    value="{{ item.quantity }}"
+                    required
+                >
+                <button type="submit">Update</button>
+            </form>
+
+            <form method="post"
+                  action="{% url 'cart_remove' item.product.pk %}">
+                {% csrf_token %}
+                <button type="submit">Remove</button>
+            </form>
+        </section>
+    {% endfor %}
+
+    <h2>Total: {{ total }}</h2>
+
+    <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+
+<a href="{% url 'product_list' %}">Continue shopping</a>
+{% endblock %}

@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+
+{% block title %}Products | Fresh Juice Store{% endblock %}
+
+{% block content %}
+<h1>Our Juices and Smoothies</h1>
+
+{% for product in products %}
+    <article>
+        <h2>
+            <a href="{% url 'product_detail' product.pk %}">
+                {{ product.name }}
+            </a>
+        </h2>
+        <p>{{ product.description|default:"Fresh and delicious." }}</p>
+        <p>Price: {{ product.price }}</p>
+        <a href="{% url 'product_detail' product.pk %}">View details</a>
+    </article>
+{% empty %}
+    <p>No products are currently available.</p>
+{% endfor %}
+{% endblock %}

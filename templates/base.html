@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -13,11 +14,32 @@
 <body>
     <header>
         <nav>
-            <a href="/">Fresh Juice Store</a>
+            <a href="{% url 'home' %}">Fresh Juice Store</a>
+            <a href="{% url 'product_list' %}">Products</a>
+
+            {% if user.is_authenticated %}
+                <span>Hello, {{ user.username }}</span>
+
+                <form method="post"
+                      action="{% url 'logout' %}"
+                      style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit">Log out</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Log in</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
         </nav>
     </header>
 
     <main>
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
         {% block content %}{% endblock %}
     </main>
 

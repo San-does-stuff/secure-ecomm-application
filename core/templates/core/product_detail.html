@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} | Fresh Juice Store{% endblock %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+
+<p>{{ product.description|default:"Fresh and delicious." }}</p>
+<p>Price: {{ product.price }}</p>
+<p>In stock: {{ product.stock }}</p>
+
+<form method="post" action="{% url 'cart_add' product.pk %}">
+    {% csrf_token %}
+    <label for="quantity">Quantity:</label>
+    <input
+        id="quantity"
+        type="number"
+        name="quantity"
+        min="1"
+        max="100"
+        value="1"
+        required
+    >
+    <button type="submit">Add to Cart</button>
+</form>
+
+<p><a href="{% url 'product_list' %}">Back to products</a></p>
+{% endblock %}

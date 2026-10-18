@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+
+{% block title %}Checkout | Fresh Juice Store{% endblock %}
+
+{% block content %}
+<h1>Review Your Order</h1>
+
+{% for item in items %}
+    <section>
+        <h2>{{ item.product.name }}</h2>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Unit price: {{ item.product.price }}</p>
+        <p>Subtotal: {{ item.subtotal }}</p>
+    </section>
+{% endfor %}
+
+<h2>Total: {{ total }}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Place Order</button>
+</form>
+
+<a href="{% url 'cart_detail' %}">Back to cart</a>
+{% endblock %}
